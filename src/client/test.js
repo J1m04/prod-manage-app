@@ -1,59 +1,34 @@
-function memoize(fn) {
-    const cache = {};
-    return function(...args) {
-      const key = JSON.stringify(args);
-      if (key in cache) {
-        return cache[key];
+const rl = require("readline").createInterface({ input: process.stdin });
+var iter = rl[Symbol.asyncIterator]();
+const readline = async () => (await iter.next()).value;
+
+void (async function () {
+  const simulatedInput = [
+    "Input line 1", // 测试输入1
+    "Input line 2", // 测试输入2
+    // 添加更多的测试输入...
+    "exit", // 停止输入的信号，根据需要更改
+  ];
+
+  let inputIndex = 0;
+  while (true) {
+    const line = await readline();
+
+    if (line === simulatedInput[inputIndex]) {
+      // 模拟用户输入
+      console.log(`Simulated input: ${line}`);
+      inputIndex++;
+
+      if (inputIndex === simulatedInput.length) {
+        // 当所有输入都模拟完成后，停止循环
+        break;
       }
-      const functionOutput = fn(...args);
-      cache[key] = functionOutput;
-      return functionOutput;
     }
+
+    // 在此处编写你的代码
+    // Write your code here
   }
-  function memo(fn) {
-    const cache ={};
-    return function(a,b) {
-        const key =  JSON.stringify([a,b]);
-        if (key in cache) {
-            return cache[key];
-          }
-          const functionOutput = fn(a,b);
-          cache[key] = functionOutput;
-      return functionOutput;
-    }
-  }
-  
-  function fib(n) {
-    function fibHelper(n) {
-      if (n <= 1) {
-        return n;
-      }
-      return fib(n - 1) + fib(n - 2); // Use the original fib function, not memoizedFib
-    }
-  
-    return fibHelper(n);
-  }
-  
-  function sum(a,b) {
-    console.log("running");
-    return a+b;
-  }
-  function self (a) {
-    console.log("self");
-    return a;
-  }
-  function memo1 (fn){
-    const memory = {};
-    return (x)=>{
-        if(memory[x]){
-            return memory[x];
-        }
-        memory[x]=fn(x);
-        return memory[x];
-    }
-  }
-let memF = memo1(self);
-console.log(memF(6));
-console.log(memF(6));
-console.log(memF(6));
-console.log(memF(6));
+
+  // 关闭 readline
+  rl.close();
+})();
